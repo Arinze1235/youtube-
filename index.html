@@ -1,1 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video Player</title>
 
+  <style>
+    body {
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px 15px;
+    }
+
+    h1 {
+      margin-top: 40px;
+    }
+
+    input {
+      width: 70%;
+      max-width: 500px;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 14px 20px;
+      margin-left: 5px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    iframe {
+      margin-top: 30px;
+      width: 100%;
+      max-width: 800px;
+      aspect-ratio: 16 / 9;
+      border: none;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Video Player</h1>
+
+  <p>Paste a YouTube link below</p>
+
+  <input
+    id="youtubeURL"
+    placeholder="Paste YouTube link..."
+  >
+
+  <button onclick="playVideo()">Play</button>
+
+  <br>
+
+  <iframe
+    id="player"
+    allowfullscreen>
+  </iframe>
+
+  <script>
+    function playVideo() {
+      const url = document.getElementById("youtubeURL").value;
+
+      try {
+        const parsedURL = new URL(url);
+        let videoID;
+
+        if (parsedURL.hostname.includes("youtu.be")) {
+          videoID = parsedURL.pathname.substring(1);
+        } else {
+          videoID = parsedURL.searchParams.get("v");
+        }
+
+        if (!videoID) {
+          alert("Please paste a valid YouTube link.");
+          return;
+        }
+
+        document.getElementById("player").src =
+          "https://www.youtube.com/embed/" + videoID;
+
+      } catch {
+        alert("Please paste a valid YouTube link.");
+      }
+    }
+  </script>
+
+</body>
+</html>
